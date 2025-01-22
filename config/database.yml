@@ -1,0 +1,46 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= Rails.application.credentials.supabase[:host] %>
+  port: <%= Rails.application.credentials.supabase[:port] %>
+  database: <%= Rails.application.credentials.supabase[:database] %>
+  username: <%= Rails.application.credentials.supabase[:user] %>
+  password: <%= Rails.application.credentials.supabase[:db_pw] %>
+  sslmode: require
+  prepared_statements: false
+  advisory_locks: false
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+  database: storage/test.sqlite3
+
+production:
+  primary: &primary_production
+    <<: *default
+    # Use the "public" schema for primary
+    schema_search_path: "public"
+
+  cache:
+    <<: *primary_production
+    # Reuse the same physical DB but store cache data in "cache" schema
+    database: <%= Rails.application.credentials.supabase[:database] %>
+    schema_search_path: "cache"
+    migrations_paths: db/cache_migrate
+
+  queue:
+    <<: *primary_production
+    # Reuse the same physical DB but store queue data in "queue" schema
+    database: <%= Rails.application.credentials.supabase[:database] %>
+    schema_search_path: "queue"
+    migrations_paths: db/queue_migrate
+
+  cable:
+    <<: *primary_production
+    # Reuse the same physical DB but store cable data in "cable" schema
+    database: <%= Rails.application.credentials.supabase[:database] %>
+    schema_search_path: "cable"
+    migrations_paths: db/cable_migrate

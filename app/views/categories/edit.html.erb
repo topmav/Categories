@@ -1,0 +1,419 @@
+<% content_for :title do %>
+  <%= @category.name %>
+<% end %>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  <%= form_with(model: @category, url: category_path(@category), method: :patch, local: true) do |f| %>
+  <script>
+    const categoryId = <%= @category.id %>;
+  </script>
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="text-2xl font-bold">Edit Category</h1>
+    <div class="space-x-2">
+      <%= f.submit "Save", class: "px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" %>
+      <%= link_to "Back", categories_path, class: "px-4 py-2 border border-gray-300 rounded hover:bg-gray-100" %>
+    </div>
+  </div>
+
+  <% if @category.errors.any? %>
+    <div class="bg-red-50 p-4 rounded mb-4">
+      <h2 class="font-bold text-red-700 mb-2">Errors prevented saving:</h2>
+      <ul class="list-disc list-inside text-red-600">
+        <% @category.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- Basic Info Section -->
+  <div class="bg-white rounded shadow-sm p-4 mb-6">
+    <h2 class="text-xl font-semibold mb-4">Basic Info</h2>
+    <div class="grid grid-cols-2 gap-4">
+      <div class="mb-4">
+        <%= f.label :name, class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.text_field :name, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+      <div class="mb-4">
+        <%= f.label :description, class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.text_area :description, rows: 4, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lead Info Section -->
+  <div class="bg-white rounded shadow-sm p-4 mb-6">
+    <h2 class="text-xl font-semibold mb-4">Lead Info</h2>
+    <div class="grid grid-cols-2 gap-4">
+      <div class="mb-4">
+        <%= f.label :qualified_lead_desc, "Qualified Lead Description", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.text_area :qualified_lead_desc, rows: 4, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+      <div class="mb-4">
+        <%= f.label :unqualified_lead_desc, "Unqualified Lead Description", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.text_area :unqualified_lead_desc, rows: 4, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+      <div class="mb-4">
+        <%= f.label :suggested_lead_pricing, "Suggested Lead Pricing ($)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.number_field :suggested_lead_pricing, step: 0.01, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+      <div class="mb-4">
+        <%= f.label :pricing_factors, class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.text_area :pricing_factors, rows: 4, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Market & Cost Metrics Section -->
+  <div class="bg-white rounded shadow-sm p-4 mb-6">
+    <h2 class="text-xl font-semibold mb-4">Market & Cost Metrics</h2>
+    <div class="grid grid-cols-2 gap-4">
+      <div class="mb-4">
+        <%= f.label :monthly_search_volume, class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.number_field :monthly_search_volume, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+      <div class="mb-4">
+        <%= f.label :customer_lifetime_value, "Customer Lifetime Value ($)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.number_field :customer_lifetime_value, step: 0.01, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+      <div class="mb-4">
+        <%= f.label :cpc_low, "CPC Low ($)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.number_field :cpc_low, step: 0.01, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+      <div class="mb-4">
+        <%= f.label :cpc_high, "CPC High ($)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+        <%= f.number_field :cpc_high, step: 0.01, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Assessment Section -->
+  <div class="bg-white rounded shadow-sm p-4 mb-6">
+    <h2 class="text-xl font-semibold mb-4">Assessment</h2>
+    <div class="mb-4">
+      <%= f.label :viability_assessment, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_area :viability_assessment, rows: 4, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+  </div>
+
+  <!-- Keywords Section -->
+  <div class="bg-white rounded shadow-sm p-4 mb-6">
+    <h2 class="text-xl font-semibold mb-4">Keywords</h2>
+    <table class="min-w-full divide-y divide-gray-200 border border-gray-200 mb-4">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-2 text-sm font-medium text-gray-700">Keyword</th>
+          <th class="px-4 py-2 text-sm font-medium text-gray-700">Monthly Search Volume</th>
+          <th class="px-4 py-2"></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200" id="keywords-table-body">
+        <% @category.keywords.each do |keyword| %>
+          <tr data-keyword-id="<%= keyword.id %>" class="keyword-row">
+            <td data-view-mode="display" class="px-4 py-2 text-sm text-gray-700">
+              <span class="keyword-text"><%= keyword.keyword %></span>
+            </td>
+            <td data-view-mode="display" class="px-4 py-2 text-sm text-gray-700">
+              <span class="volume-text"><%= keyword.monthly_search_volume %></span>
+            </td>
+            <td data-view-mode="edit" class="px-4 py-2 hidden">
+              <input type="text" class="edit-keyword w-2/3 mr-1 px-2 py-1 border rounded" value="<%= keyword.keyword %>">
+              <input type="number" class="edit-volume w-1/3 px-2 py-1 border rounded" value="<%= keyword.monthly_search_volume %>">
+            </td>
+            <td class="px-4 py-2 text-right">
+              <div data-view-mode="display">
+                <a href="#" onclick="toggleEditKeyword(<%= keyword.id %>); return false;" class="text-blue-600 hover:underline">✏️</a>
+                <a href="#" onclick="deleteKeyword(<%= keyword.id %>); return false;" class="text-red-600 hover:underline ml-2">❌</a>
+              </div>
+              <div data-view-mode="edit" class="hidden">
+                <button onclick="saveKeyword(<%= keyword.id %>)" class="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700 mr-1">Save</button>
+                <button onclick="cancelKeywordEdit(<%= keyword.id %>)" class="px-3 py-1 bg-gray-300 text-sm rounded hover:bg-gray-400">Cancel</button>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+        <tr id="new-keyword-row">
+          <td class="px-4 py-2">
+            <input type="text" name="keyword[keyword]" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter keyword">
+          </td>
+          <td class="px-4 py-2">
+            <input type="number" name="keyword[monthly_search_volume]" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" placeholder="Monthly volume">
+          </td>
+          <td colspan="2" class="px-4 py-2 text-right">
+            <button type="button" onclick="addKeyword()" class="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700">Add Keyword</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Form Data Section -->
+  <div class="bg-white rounded shadow-sm p-4 mb-6">
+    <h2 class="text-xl font-semibold mb-4">Form Data</h2>
+    <!-- Editable JSON field -->
+    <div class="mb-4">
+      <label for="form_data" class="block text-sm font-medium text-gray-700 mb-1">Edit Form Data (JSON)</label>
+      <%= text_area_tag 'form_data',
+        (@form.form_data.present? ? JSON.pretty_generate(@form.form_data) : ''),
+        rows: 8,
+        class: "w-full px-3 py-2 border border-gray-300 rounded-md font-mono text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+
+    <!-- Display current saved state -->
+    <div class="mt-4">
+      <h3 class="text-md font-semibold">Current Form Data</h3>
+      <% if @category.form&.form_data.present? %>
+        <% data = @category.form.form_data %>
+        <ol class="list-decimal list-inside">
+          <% if data["questions"].is_a?(Array) %>
+            <% data["questions"].each_with_index do |q, idx| %>
+              <li class="mb-2">
+                <strong>Question <%= idx + 1 %>:</strong> <%= q["question"] %><br/>
+                <em>Type:</em> <%= q["type"] %><br/>
+                <em>Reasoning:</em> <%= q["reasoning"] %><br/>
+                <em>Answers:</em> <%= q["answers"] %>
+              </li>
+            <% end %>
+          <% else %>
+            <p class="text-sm text-gray-500">No questions array found in form_data.</p>
+          <% end %>
+        </ol>
+      <% else %>
+        <p class="text-sm text-gray-500">No form data found.</p>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Landing Pages Section -->
+  <div class="bg-white rounded shadow-sm p-4 mb-6">
+    <h2 class="text-xl font-semibold mb-4">Landing Pages</h2>
+    <div
+      id="landing-page-drop-zone"
+      class="border-2 border-dashed border-gray-300 rounded p-4 text-center"
+    >
+      <p>Drag & Drop to Upload</p>
+    </div>
+
+    <div id="landing-page-images-container" class="mt-4 grid grid-cols-4 gap-4">
+      <% @landing_page_images.each do |image| %>
+        <div class="relative group">
+          <button
+            onclick="deleteImage('<%= image[:filename] %>', this.parentElement)"
+            class="absolute top-0 right-0 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center font-bold z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            ×
+          </button>
+          <img
+            src="<%= image[:url] %>"
+            alt="<%= image[:filename] %>"
+            title="<%= image[:filename] %>"
+            class="w-32 h-32 object-cover border rounded hover:border-blue-500 transition-colors cursor-pointer"
+            onclick="showFullImage('<%= image[:url] %>', '<%= image[:filename] %>')"
+          />
+          <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 truncate">
+            <%= image[:filename] %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Ads Section -->
+  <div class="bg-white rounded shadow-sm p-4 mb-6">
+    <h2 class="text-xl font-semibold mb-4">Ads</h2>
+    <div
+      id="ad-drop-zone"
+      class="border-2 border-dashed border-gray-300 rounded p-4 text-center"
+    >
+      <p>Drag & Drop to Upload</p>
+    </div>
+
+    <div id="ad-images-container" class="mt-4 grid grid-cols-4 gap-4">
+      <% @ad_images.each do |image| %>
+        <div class="relative group">
+          <button
+            onclick="deleteAdImage('<%= image[:filename] %>', this.parentElement)"
+            class="absolute top-0 right-0 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center font-bold z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            ×
+          </button>
+          <img
+            src="<%= image[:url] %>"
+            alt="<%= image[:filename] %>"
+            title="<%= image[:filename] %>"
+            class="w-32 h-32 object-cover border rounded hover:border-blue-500 transition-colors cursor-pointer"
+            onclick="showFullImage('<%= image[:url] %>', '<%= image[:filename] %>')"
+          />
+          <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 truncate">
+            <%= image[:filename] %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Sellers Section -->
+  <div class="bg-white rounded shadow-sm p-4">
+    <h2 class="text-xl font-semibold mb-4">Sellers</h2>
+    <table class="min-w-full divide-y divide-gray-200 border border-gray-200 mb-4">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-2 text-sm font-medium text-gray-700">Name</th>
+          <th class="px-4 py-2 text-sm font-medium text-gray-700">Website</th>
+          <th class="px-4 py-2 text-sm font-medium text-gray-700">Size</th>
+          <th class="px-4 py-2 text-sm font-medium text-gray-700">Note</th>
+          <th class="px-4 py-2"></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200" id="sellers-table-body">
+        <% @category.sellers.each do |seller| %>
+          <tr data-seller-id="<%= seller.id %>" class="seller-row">
+            <td data-view-mode="display" class="px-4 py-2 text-sm text-gray-700">
+              <span class="seller-name"><%= seller.name %></span>
+            </td>
+            <td data-view-mode="display" class="px-4 py-2 text-sm text-gray-700">
+              <span class="seller-website"><%= seller.website %></span>
+            </td>
+            <td data-view-mode="display" class="px-4 py-2 text-sm text-gray-700">
+              <span class="seller-size"><%= seller.size %></span>
+            </td>
+            <td data-view-mode="display" class="px-4 py-2 text-sm text-gray-700">
+              <span class="seller-note"><%= seller.note %></span>
+            </td>
+            <td data-view-mode="edit" class="px-4 py-2 hidden" colspan="4">
+              <div class="flex flex-wrap items-center gap-2">
+                <input type="text" class="edit-seller-name border rounded px-2 py-1" value="<%= seller.name %>" placeholder="Name">
+                <input type="text" class="edit-seller-website border rounded px-2 py-1" value="<%= seller.website %>" placeholder="Website">
+                <input type="text" class="edit-seller-size border rounded px-2 py-1" value="<%= seller.size %>" placeholder="Size">
+                <input type="text" class="edit-seller-note border rounded px-2 py-1" value="<%= seller.note %>" placeholder="Note">
+              </div>
+            </td>
+            <td class="px-4 py-2 text-right">
+              <div data-view-mode="display">
+                <a href="#" onclick="toggleEditSeller(<%= seller.id %>); return false;" class="text-blue-600 hover:underline">✏️</a>
+                <a href="#" onclick="deleteSeller(<%= seller.id %>); return false;" class="text-red-600 hover:underline ml-2">❌</a>
+              </div>
+              <div data-view-mode="edit" class="hidden">
+                <button onclick="saveSeller(<%= seller.id %>)" class="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700 mr-1">Save</button>
+                <button onclick="cancelSellerEdit(<%= seller.id %>)" class="px-3 py-1 bg-gray-300 text-sm rounded hover:bg-gray-400">Cancel</button>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+        <tr id="new-seller-row">
+          <td class="px-4 py-2">
+            <input type="text" name="seller[name]" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Name">
+          </td>
+          <td class="px-4 py-2">
+            <input type="text" name="seller[website]" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Website">
+          </td>
+          <td class="px-4 py-2">
+            <input type="text" name="seller[size]" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Size">
+          </td>
+          <td class="px-4 py-2">
+            <input type="text" name="seller[note]" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Note">
+          </td>
+          <td class="px-4 py-2 text-right">
+            <div class="flex justify-end mb-4">
+              <button type="button" onclick="addSeller()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Add Seller</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+
+<!-- Modal for full-size image preview -->
+<div id="imageModal" class="fixed inset-0 hidden z-50 overflow-auto bg-black bg-opacity-75 flex items-center justify-center" onclick="hideImageModal()">
+  <div class="relative max-w-4xl mx-auto p-4" onclick="event.stopPropagation()">
+    <button onclick="hideImageModal()" class="absolute top-0 right-0 m-4 text-white text-xl font-bold hover:text-gray-300">×</button>
+    <img id="modalImage" src="" alt="" class="max-w-full max-h-[90vh] object-contain" />
+    <div id="modalCaption" class="text-white text-center mt-2"></div>
+  </div>
+</div>
+
+<script>
+  function showFullImage(url, caption) {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const modalCaption = document.getElementById('modalCaption');
+
+    modalImg.src = url;
+    modalImg.alt = caption;
+    modalCaption.textContent = caption;
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function hideImageModal() {
+    const modal = document.getElementById('imageModal');
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+  }
+
+  function deleteImage(filename, imageElement) {
+    if (!confirm('Are you sure you want to delete this image?')) {
+      return;
+    }
+
+    // Remove any URL parameters if present
+    const cleanFilename = filename.split('?')[0];
+
+    fetch(`/categories/${categoryId}/landing_page_images/${encodeURIComponent(cleanFilename)}`, {
+      method: 'DELETE',
+      headers: {
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        imageElement.remove();
+      } else {
+        alert('Failed to delete image: ' + (data.error || 'Unknown error'));
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Failed to delete image. Please try again.');
+    });
+  }
+
+  function deleteAdImage(filename, imageElement) {
+    if (!confirm('Are you sure you want to delete this image?')) {
+      return;
+    }
+
+    // Remove any URL parameters if present
+    const cleanFilename = filename.split('?')[0];
+
+    fetch(`/categories/${categoryId}/ad_images/${encodeURIComponent(cleanFilename)}`, {
+      method: 'DELETE',
+      headers: {
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        imageElement.remove();
+      } else {
+        alert('Failed to delete image: ' + (data.error || 'Unknown error'));
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Failed to delete image. Please try again.');
+    });
+  }
+
+  // Close modal on escape key
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      hideImageModal();
+    }
+  });
+</script>
